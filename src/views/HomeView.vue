@@ -35,7 +35,7 @@ const goTo = (name) => {
           <p>Administra el contenido de eventos pasados y futuros.</p>
         </div>
 
-        <div class="card disabled">
+        <div class="card clickable" @click="goTo('idea')">
           <h2>Ideas</h2>
           <p>Modifica el contenido de la sección ideas</p>
         </div>
@@ -45,7 +45,7 @@ const goTo = (name) => {
     <div class="card-section">
       <h2>Actores</h2>
       <div class="card-grid">
-        <div class="card clickeabl" @click="goTo('actorContent')">
+        <div class="card clickable" @click="goTo('actorContent')">
           <h2>Contenido por Actor</h2>
           <p>Contenido personalizado de cada entidad participante.</p>
         </div>

@@ -6,6 +6,7 @@ import ProjectView from '@/views/ProjectView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import GeneralContentView from '@/views/GeneralContentView.vue'
 import ActorContentView from '@/views/ActorContentView.vue'
+import IdeaView from '@/views/IdeaView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,12 @@ const router = createRouter({
       component: ActorContentView,
       meta: { requiresAuth: true },
     },
+    {
+      path: '/idea',
+      name: 'idea',
+      component: IdeaView,
+      meta: { requiresAuth: true },
+    }
   ],
 })
 
