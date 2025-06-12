@@ -98,18 +98,6 @@ const handleSubmit = async () => {
         <input v-model="form.youtube_link" />
       </div>
       <div class="form-group">
-        <label>Descripción Box:</label>
-        <input v-model="form.desc_box" />
-      </div>
-      <div class="form-group">
-        <label>Objetivos Box:</label>
-        <input v-model="form.obj_box" />
-      </div>
-      <div class="form-group">
-        <label>Resultados Box:</label>
-        <input v-model="form.resultados_box" />
-      </div>
-      <div class="form-group">
         <label>Imagen Card:</label>
         <input type="file" @change="handleCardImageChange" />
       </div>
