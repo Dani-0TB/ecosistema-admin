@@ -8,7 +8,7 @@ const form = ref({
   titulo: '',
   descripcion: '',
   boton: '',
-  bg_img: '' // nombre del archivo actual
+  bg_img: ''
 })
 const file = ref(null)
 
@@ -41,35 +41,69 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="form">
-    <div>
-      <label>Título</label>
-      <input v-model="form.titulo" type="text" required />
+  <form @submit.prevent="handleSubmit" class="idea-form">
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input id="titulo" v-model="form.titulo" type="text" required />
     </div>
-    <div>
-      <label>Descripción</label>
-      <textarea v-model="form.descripcion" required></textarea>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" v-model="form.descripcion" required></textarea>
     </div>
-    <div>
-      <label>Texto del Botón</label>
-      <input v-model="form.boton" type="text" required />
+
+    <div class="form-group">
+      <label for="boton">Texto del Botón</label>
+      <input id="boton" v-model="form.boton" type="text" />
     </div>
-    <div>
-      <label>Imagen actual:</label>
-      <span>{{ form.bg_img }}</span>
+
+    <div class="form-group">
+      <label for="file">Imagen de fondo</label>
+      <input id="file" type="file" @change="handleFileChange" />
+      <p v-if="form.bg_img">Archivo actual: {{ form.bg_img }}</p>
     </div>
-    <div>
-      <label>Imagen nueva (opcional):</label>
-      <input type="file" @change="handleFileChange" />
-    </div>
+
     <button type="submit">Guardar</button>
   </form>
 </template>
 
 <style scoped>
-.form {
+.idea-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 </style>

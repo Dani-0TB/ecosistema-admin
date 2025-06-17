@@ -25,7 +25,7 @@ const goTo = (name) => {
           <p>Textos e imágenes del landing principal.</p>
         </div>
 
-        <div class="card disabled">
+        <div class="card clickable" @click="goTo('cifras')">
           <h2>Cifras</h2>
           <p>Indicadores clave y estadísticas del ecosistema.</p>
         </div>

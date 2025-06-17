@@ -7,6 +7,7 @@ import LoginView from '@/views/auth/LoginView.vue'
 import GeneralContentView from '@/views/GeneralContentView.vue'
 import ActorContentView from '@/views/ActorContentView.vue'
 import IdeaView from '@/views/IdeaView.vue'
+import NumbersWidgetView from '@/views/NumbersWidgetView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,7 +58,13 @@ const router = createRouter({
       name: 'idea',
       component: IdeaView,
       meta: { requiresAuth: true },
-    }
+    },
+    {
+      path: '/cifras-widget',
+      name: 'cifras',
+      component: NumbersWidgetView,
+      meta: { requiresAuth: true },
+    },
   ],
 })
 
