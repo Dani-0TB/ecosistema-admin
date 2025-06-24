@@ -30,7 +30,7 @@ const goTo = (name) => {
           <p>Indicadores clave y estadísticas del ecosistema.</p>
         </div>
 
-        <div class="card disabled">
+        <div class="card clickable" @click="goTo('eventos')">
           <h2>Eventos</h2>
           <p>Administra el contenido de eventos pasados y futuros.</p>
         </div>

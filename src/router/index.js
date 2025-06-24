@@ -8,6 +8,7 @@ import GeneralContentView from '@/views/GeneralContentView.vue'
 import ActorContentView from '@/views/ActorContentView.vue'
 import IdeaView from '@/views/IdeaView.vue'
 import NumbersWidgetView from '@/views/NumbersWidgetView.vue'
+import EventView from '@/views/EventView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +64,12 @@ const router = createRouter({
       path: '/cifras-widget',
       name: 'cifras',
       component: NumbersWidgetView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/eventos',
+      name: 'eventos',
+      component: EventView,
       meta: { requiresAuth: true },
     },
   ],

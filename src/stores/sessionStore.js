@@ -17,7 +17,6 @@ export const useSessionStore = defineStore('session', {
     async login(userCredentials) {
       try {
         const result = await login(userCredentials)
-        // Asumimos que el resultado trae { token, user }.
         this.token = result.token
         this.username = result.username
         this.isLoggedIn = true
