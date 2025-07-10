@@ -23,9 +23,12 @@ export async function getTeamMembers(tarjeta_id = null) {
 
 // Crear un nuevo miembro del equipo con imagen
 export async function createTeamMember(formData) {
+  const token = useSessionStore().token
   const response = await fetch(`${BASE_URL}/create`, {
     method: 'POST',
-    headers: getAuthHeaders(),
+    headers: {
+      Authorization: `Bearer ${token}`, // solo este header
+    },
     body: formData,
   })
   if (!response.ok) throw new Error('Error al crear el miembro del equipo')
@@ -34,9 +37,12 @@ export async function createTeamMember(formData) {
 
 // Actualizar un miembro del equipo (puede o no incluir nueva imagen)
 export async function updateTeamMember(formData) {
+  const token = useSessionStore().token
   const response = await fetch(`${BASE_URL}/update`, {
     method: 'PUT',
-    headers: getAuthHeaders(),
+    headers: {
+      Authorization: `Bearer ${token}`, // solo este header
+    },
     body: formData,
   })
   if (!response.ok) throw new Error('Error al actualizar el miembro del equipo')

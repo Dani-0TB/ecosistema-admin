@@ -16,13 +16,6 @@ const form = ref({
   titulo: '',
   descripcion: '',
   youtube_link: '',
-  es_investigacion: false,
-  es_fabricacion: false,
-  es_desarrollo: false,
-  es_videojuegos: false,
-  es_robotica: false,
-  es_vr: false,
-  es_otros: false
 })
 
 const initializeForm = () => {
@@ -31,26 +24,12 @@ const initializeForm = () => {
       titulo: props.project.titulo || '',
       descripcion: props.project.descripcion || '',
       youtube_link: props.project.youtube_link || '',
-      es_investigacion: !!props.project.es_investigacion,
-      es_fabricacion: !!props.project.es_fabricacion,
-      es_desarrollo: !!props.project.es_desarrollo,
-      es_videojuegos: !!props.project.es_videojuegos,
-      es_robotica: !!props.project.es_robotica,
-      es_vr: !!props.project.es_vr,
-      es_otros: !!props.project.es_otros
     }
   } else {
     form.value = {
       titulo: '',
       descripcion: '',
       youtube_link: '',
-      es_investigacion: false,
-      es_fabricacion: false,
-      es_desarrollo: false,
-      es_videojuegos: false,
-      es_robotica: false,
-      es_vr: false,
-      es_otros: false
     }
   }
 }
@@ -70,13 +49,6 @@ const handleSubmit = async () => {
       titulo: form.value.titulo,
       descripcion: form.value.descripcion,
       youtube_link: form.value.youtube_link,
-      es_investigacion: form.value.es_investigacion,
-      es_fabricacion: form.value.es_fabricacion,
-      es_desarrollo: form.value.es_desarrollo,
-      es_videojuegos: form.value.es_videojuegos,
-      es_robotica: form.value.es_robotica,
-      es_vr: form.value.es_vr,
-      es_otros: form.value.es_otros
     }
 
     if (props.isEditing && props.project?.proyecto_id) {
@@ -110,16 +82,6 @@ const handleSubmit = async () => {
       <div class="form-group">
         <label for="youtube_link">Enlace de YouTube:</label>
         <input id="youtube_link" v-model="form.youtube_link" />
-      </div>
-
-      <div class="checkboxes">
-        <label><input type="checkbox" v-model="form.es_investigacion" /> Investigación</label>
-        <label><input type="checkbox" v-model="form.es_fabricacion" /> Fabricación</label>
-        <label><input type="checkbox" v-model="form.es_desarrollo" /> Desarrollo</label>
-        <label><input type="checkbox" v-model="form.es_videojuegos" /> Videojuegos</label>
-        <label><input type="checkbox" v-model="form.es_robotica" /> Robótica</label>
-        <label><input type="checkbox" v-model="form.es_vr" /> VR</label>
-        <label><input type="checkbox" v-model="form.es_otros" /> Otros</label>
       </div>
 
       <div class="buttons">

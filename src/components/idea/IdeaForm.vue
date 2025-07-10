@@ -10,7 +10,6 @@ const form = ref({
   boton: '',
   bg_img: ''
 })
-const file = ref(null)
 
 watch(() => store.idea, (newIdea) => {
   if (newIdea) {
@@ -25,7 +24,10 @@ watch(() => store.idea, (newIdea) => {
 }, { immediate: true })
 
 const handleFileChange = (e) => {
-  file.value = e.target.files[0]
+  const file = e.target.files[0]
+  if (file) {
+    form.value.bg_img = file
+  }
 }
 
 const handleSubmit = async () => {
@@ -33,10 +35,15 @@ const handleSubmit = async () => {
   for (const key in form.value) {
     formData.append(key, form.value[key])
   }
-  if (file.value) {
-    formData.append('file', file.value)
+
+  try {
+    await store.updateIdea(formData)
+    alert('Datos actualizados correctamente')
+    await store.loadIdea()
   }
-  await store.updateIdea(formData)
+  catch (err) {
+    alert(err)
+  }
 }
 </script>
 
@@ -60,7 +67,11 @@ const handleSubmit = async () => {
     <div class="form-group">
       <label for="file">Imagen de fondo</label>
       <input id="file" type="file" @change="handleFileChange" />
-      <p v-if="form.bg_img">Archivo actual: {{ form.bg_img }}</p>
+      <div v-if="typeof form.bg_img === 'string'">
+        <label>Imagen actual:</label>
+        <p>{{ form.bg_img }}</p>
+      </div>
+
     </div>
 
     <button type="submit">Guardar</button>

@@ -27,9 +27,7 @@ export const useIdeaStore = defineStore('idea', {
       this.loading = true
       this.error = null
       try {
-        const result = await updateIdea(data)
-        this.idea = result
-        return result
+        await updateIdea(data)
       } catch (err) {
         this.error = err.message || 'Error al actualizar contenido de Idea'
         throw err

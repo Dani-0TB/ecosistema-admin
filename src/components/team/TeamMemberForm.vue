@@ -11,12 +11,6 @@ const nombre = ref('')
 const cargo = ref('')
 const correo = ref('')
 const foto = ref(null)
-const flags = ref({
-  es_proyectos: false,
-  es_citt: false,
-  es_lab: false,
-  es_landing: false
-})
 
 watch(
   () => store.selectedCard,
@@ -25,12 +19,6 @@ watch(
       nombre.value = val.nombre
       cargo.value = val.cargo
       correo.value = val.correo
-      flags.value = {
-        es_proyectos: !!val.es_proyectos,
-        es_citt: !!val.es_citt,
-        es_lab: !!val.es_lab,
-        es_landing: !!val.es_landing
-      }
     }
   },
   { immediate: true }
@@ -42,10 +30,6 @@ const submit = async () => {
   formData.append('nombre', nombre.value)
   formData.append('cargo', cargo.value)
   formData.append('correo', correo.value)
-  formData.append('es_proyectos', String(flags.value.es_proyectos))
-  formData.append('es_citt', String(flags.value.es_citt))
-  formData.append('es_lab', String(flags.value.es_lab))
-  formData.append('es_landing', String(flags.value.es_landing))
   if (foto.value) formData.append('foto', foto.value)
 
   try {
@@ -55,6 +39,13 @@ const submit = async () => {
     emit('close')
   } catch (err) {
     console.error(err)
+  }
+}
+
+function handleFileUpload(event) {
+  const file = event.target.files[0]
+  if (file) {
+    foto.value = file
   }
 }
 </script>
@@ -80,7 +71,7 @@ const submit = async () => {
 
     <label>
       Foto:
-      <input type="file" @change="e => foto.value = e.target.files[0]" />
+      <input type="file" @change="handleFileUpload" accept="image/*" />
     </label>
 
     <div class="acciones">

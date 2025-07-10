@@ -21,10 +21,15 @@ const handleFileUpload = (e) => {
 
 const guardarWidget = () => {
   if (!widget.value) return;
-  widgetStore.saveWidget({
-    titulo: widget.value.titulo,
-    widget_img: widget.value.widget_img
-  });
+
+  const formData = new FormData();
+  formData.append('titulo', widget.value.titulo);
+
+  if (widget.value.widget_img instanceof File) {
+    formData.append('widget_img', widget.value.widget_img);
+  }
+
+  widgetStore.saveWidget(formData);
 };
 
 const guardarCifra = (cifra) => {
@@ -47,13 +52,13 @@ const agregarCifra = () => {
 </script>
 
 <template>
-  <div class="editor">
-    <div v-if="!widget">
-      <p>Cargando widget...</p>
-    </div>
+  <div v-if="!widget" class="editor">
+    <p>Cargando widget...</p>
+  </div>
 
-    <template v-else>
-      <!-- Formulario del widget -->
+  <div v-else class="editor-grid">
+    <!-- Columna izquierda: Widget -->
+    <div class="left-column">
       <form @submit.prevent="guardarWidget" class="form-section">
         <h2>Datos del Widget</h2>
         <div class="form-group">
@@ -63,31 +68,39 @@ const agregarCifra = () => {
         <div class="form-group">
           <label for="imagen">Imagen</label>
           <input id="imagen" type="file" @change="handleFileUpload" />
+          <div>
+            Imagen actual:
+            <span>{{ widget.widget_img || 'No hay imagen' }}</span>
+          </div>
         </div>
+
         <button type="submit">Guardar Widget</button>
       </form>
+    </div>
 
-      <!-- Lista de cifras -->
-      <div class="form-section" v-if="cifras">
+    <!-- Columna derecha: Cifras y nuevo -->
+    <div class="right-column">
+      <div class="form-section">
         <h2>Cifras</h2>
-        <div v-for="cifra in cifras" :key="cifra.cifra_id" class="cifra-box">
-          <div class="form-group">
-            <label>Descripción</label>
-            <input v-model="cifra.descripcion_cifra" type="text" />
-          </div>
-          <div class="form-group">
-            <label>Cifra</label>
-            <input v-model="cifra.cifra" type="number" />
-          </div>
-          <div class="buttons">
-            <button type="button" @click="guardarCifra(cifra)">Guardar</button>
-            <button type="button" @click="eliminarCifra(cifra.cifra_id)">Eliminar</button>
+        <div class="cifras-scroll" v-if="cifras">
+          <div v-for="cifra in cifras" :key="cifra.cifra_id" class="cifra-box">
+            <div class="form-group">
+              <label>Descripción</label>
+              <input v-model="cifra.descripcion_cifra" type="text" />
+            </div>
+            <div class="form-group">
+              <label>Cifra</label>
+              <input v-model="cifra.cifra" type="number" />
+            </div>
+            <div class="buttons">
+              <button type="button" @click="guardarCifra(cifra)">Guardar</button>
+              <button type="button" @click="eliminarCifra(cifra.cifra_id)">Eliminar</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Agregar nueva cifra -->
-      <div class="form-section">
+      <div class="form-section nueva-cifra">
         <h3>Nueva Cifra</h3>
         <div class="form-group">
           <label>Descripción</label>
@@ -99,22 +112,53 @@ const agregarCifra = () => {
         </div>
         <button type="button" @click="agregarCifra">Agregar</button>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.editor {
+.editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   padding: 16px;
-  max-width: 700px;
+  max-width: 1200px;
   margin: auto;
+}
+
+.left-column,
+.right-column {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.cifras-scroll {
+  max-height: 320px;
+  overflow-y: auto;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  padding-right: 8px;
+  border-right: 2px solid #f0f0f0;
+}
+
+.cifra-box {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px dashed #999;
+  border-radius: 4px;
+}
+
+.nueva-cifra {
+  background-color: #fafafa;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
 }
 
 .form-section {
   margin-bottom: 24px;
-  padding: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .form-group {
@@ -131,13 +175,6 @@ const agregarCifra = () => {
   width: 100%;
   padding: 6px;
   box-sizing: border-box;
-}
-
-.cifra-box {
-  margin-bottom: 16px;
-  padding: 12px;
-  border: 1px dashed #999;
-  border-radius: 4px;
 }
 
 .buttons {

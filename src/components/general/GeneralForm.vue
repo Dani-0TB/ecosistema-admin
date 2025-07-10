@@ -32,6 +32,11 @@ watch(
   },
   { immediate: true }
 )
+function handleImageChange(e) {
+  const file = e.target.files[0]
+  console.log('Archivo seleccionado:', file)
+  home_image.value = file
+}
 
 // Función para manejar el submit
 const handleSubmit = async () => {
@@ -47,6 +52,7 @@ const handleSubmit = async () => {
   formData.append('resultados_box', resultados_box.value)
 
   if (home_image.value) {
+    console.log("appending home image")
     formData.append('home_image', home_image.value)
   }
 
@@ -83,7 +89,7 @@ const handleSubmit = async () => {
 
       <div class="form-group">
         <label for="home_image">Imagen (opcional)</label>
-        <input id="home_image" type="file" @change="e => home_image.value = e.target.files[0]" />
+        <input id="home_image" type="file" @change="handleImageChange" />
       </div>
 
       <button type="submit">Guardar</button>
