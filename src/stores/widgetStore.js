@@ -9,8 +9,8 @@ import {
 
 export const useWidgetStore = defineStore('widget', {
   state: () => ({
-    widget: null, // { widget_id, titulo, widget_img }
-    cifras: [], // [{ cifra_id, cifra, descripcion_cifra }]
+    widget: null,
+    cifras: [],
   }),
 
   actions: {
@@ -24,39 +24,44 @@ export const useWidgetStore = defineStore('widget', {
       }
     },
 
-    async saveWidget(payload) {
-      if (!this.widget?.widget_id) return
+    async saveWidget() {
+      if (!this.widget) return
       try {
-        await updateWidget(this.widget.widget_id, payload)
-        this.widget = { ...this.widget, ...payload }
+        const formData = new FormData()
+        formData.append('widget_id', this.widget.widget_id)
+        formData.append('titulo', this.widget.titulo)
+        if (this.widget.widget_img instanceof File) {
+          formData.append('widget_img', this.widget.widget_img)
+        }
+        await updateWidget(formData)
       } catch (error) {
         console.error('Error al actualizar widget:', error)
       }
     },
 
-    async addNewCifra(payload) {
+    async saveCifra(cifra) {
       try {
-        const result = await addCifra(this.widget.widget_id, payload)
-        this.cifras.push(result)
+        const formData = new FormData()
+        formData.append('descripcion_cifra', cifra.descripcion_cifra)
+        formData.append('cifra', cifra.cifra)
+
+        if (cifra.cifra_id) {
+          formData.append('cifra_id', cifra.cifra_id)
+          await updateCifra(formData)
+        } else {
+          await addCifra(formData)
+        }
+
+        await this.fetchWidget()
       } catch (error) {
-        console.error('Error al agregar cifra:', error)
+        console.error('Error al guardar cifra:', error)
       }
     },
 
-    async saveCifra(cifra_id, payload) {
+    async eliminarCifra(id) {
       try {
-        await updateCifra(cifra_id, payload)
-        const idx = this.cifras.findIndex((c) => c.cifra_id === cifra_id)
-        if (idx !== -1) this.cifras[idx] = { ...this.cifras[idx], ...payload }
-      } catch (error) {
-        console.error('Error al actualizar cifra:', error)
-      }
-    },
-
-    async removeCifra(cifra_id) {
-      try {
-        await deleteCifra(cifra_id)
-        this.cifras = this.cifras.filter((c) => c.cifra_id !== cifra_id)
+        await deleteCifra(id)
+        this.cifras = this.cifras.filter((c) => c.cifra_id !== id)
       } catch (error) {
         console.error('Error al eliminar cifra:', error)
       }

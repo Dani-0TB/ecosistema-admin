@@ -21,15 +21,7 @@ const handleFileUpload = (e) => {
 
 const guardarWidget = () => {
   if (!widget.value) return;
-
-  const formData = new FormData();
-  formData.append('titulo', widget.value.titulo);
-
-  if (widget.value.widget_img instanceof File) {
-    formData.append('widget_img', widget.value.widget_img);
-  }
-
-  widgetStore.saveWidget(formData);
+  widgetStore.saveWidget();
 };
 
 const guardarCifra = (cifra) => {
@@ -41,12 +33,12 @@ const guardarCifra = (cifra) => {
 };
 
 const eliminarCifra = (id) => {
-  widgetStore.removeCifra(id);
+  widgetStore.eliminarCifra(id);
 };
 
 const agregarCifra = () => {
   if (!nueva.value.descripcion_cifra || nueva.value.cifra == null) return;
-  widgetStore.addNewCifra({ ...nueva.value });
+  widgetStore.saveCifra({ ...nueva.value });
   nueva.value = { descripcion_cifra: '', cifra: null };
 };
 </script>

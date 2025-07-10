@@ -17,58 +17,41 @@ export const getWidget = async () => {
   return await response.json()
 }
 
-export const updateWidget = async (payload) => {
-  const sessionStore = useSessionStore()
-  const formData = new FormData()
-
-  formData.append('titulo', payload.titulo)
-  if (payload.widget_img instanceof File) {
-    formData.append('widget_img', payload.widget_img)
-  }
-
+export const updateWidget = async (formData) => {
   const response = await fetch(`${BASE_URL}/update/widget`, {
     method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${sessionStore.token}`,
-    },
+    headers: authHeader(),
     body: formData,
   })
-
   return await response.json()
 }
 
-export const addCifra = async (payload) => {
+export const addCifra = async (formData) => {
   const response = await fetch(`${BASE_URL}/create/description_widget`, {
     method: 'POST',
-    headers: {
-      ...authHeader(),
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+    headers: authHeader(),
+    body: formData,
   })
   return await response.json()
 }
 
-export const updateCifra = async (payload) => {
+export const updateCifra = async (formData) => {
   const response = await fetch(`${BASE_URL}/update/description_widget`, {
     method: 'PUT',
-    headers: {
-      ...authHeader(),
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+    headers: authHeader(),
+    body: formData,
   })
   return await response.json()
 }
 
-export const deleteCifra = async (cifra_id) => {
+export const deleteCifra = async (id) => {
   const response = await fetch(`${BASE_URL}/delete/description_widget`, {
     method: 'DELETE',
     headers: {
       ...authHeader(),
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ cifra_id }),
+    body: JSON.stringify({ cifra_id: id }),
   })
   return await response.json()
 }
